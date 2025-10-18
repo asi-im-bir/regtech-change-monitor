@@ -40,5 +40,47 @@
         "regulation": "GDPR Article 72 Enforcement",
         "message": "Failed to fetch URL. Connection/HTTP error: 404 Client Error: Not Found for url: https://example.com/gdpr-enforcement-news",
         "url": "https://example.com/gdpr-enforcement-news"
+    },
+    {
+        "timestamp": "2025-10-18 13:12:40",
+        "status": "ERROR",
+        "regulation": "EU NIS2 Directive Status",
+        "message": "Failed to fetch URL. Connection/HTTP error: 404 Client Error: Not Found for url: https://commission.europa.eu/law/cybersecurity-nis-directive-2-status",
+        "url": "https://ec.europa.eu/info/law/cybersecurity-nis-directive-2-status"
+    },
+    {
+        "timestamp": "2025-10-18 13:12:43",
+        "status": "ERROR",
+        "regulation": "EU AI Act Status",
+        "message": "Failed to fetch URL. Connection/HTTP error: 404 Client Error: Not Found for url: https://commission.europa.eu/law/artificial-intelligence-act-status",
+        "url": "https://ec.europa.eu/info/law/artificial-intelligence-act-status"
+    },
+    {
+        "timestamp": "2025-10-18 13:12:46",
+        "status": "ERROR",
+        "regulation": "GDPR Article 72 Enforcement",
+        "message": "Failed to fetch URL. Connection/HTTP error: 404 Client Error: Not Found for url: https://example.com/gdpr-enforcement-news",
+        "url": "https://example.com/gdpr-enforcement-news"
+    },
+    {
+        "timestamp": "2025-10-18 13:24:45",
+        "status": "ERROR",
+        "regulation": "EU NIS2 Directive Status",
+        "message": "HTML selector '#content' not found on page. Check the DevTools output.",
+        "url": "https://digital-strategy.ec.europa.eu/en/policies/nis2-directive"
+    },
+    {
+        "timestamp": "2025-10-18 13:24:46",
+        "status": "ERROR",
+        "regulation": "EU AI Act Status",
+        "message": "HTML selector '#content' not found on page. Check the DevTools output.",
+        "url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai"
+    },
+    {
+        "timestamp": "2025-10-18 13:24:49",
+        "status": "ERROR",
+        "regulation": "GDPR Enforcement Tracker (CMS Law)",
+        "message": "HTML selector '#main' not found on page. Check the DevTools output.",
+        "url": "https://www.enforcementtracker.com/"
     }
 ]

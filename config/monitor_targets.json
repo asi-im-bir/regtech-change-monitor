@@ -1,0 +1,17 @@
+[
+    {
+        "regulation_name": "EU NIS2 Directive Status",
+        "target_url": "https://ec.europa.eu/info/law/cybersecurity-nis-directive-2-status",
+        "selector_id": "#main-article-body"
+    },
+    {
+        "regulation_name": "EU AI Act Status",
+        "target_url": "https://ec.europa.eu/info/law/artificial-intelligence-act-status",
+        "selector_id": "#ai-act-status-content"
+    },
+    {
+        "regulation_name": "GDPR Article 72 Enforcement",
+        "target_url": "https://example.com/gdpr-enforcement-news",
+        "selector_id": ".enforcement-updates-list"
+    }
+]

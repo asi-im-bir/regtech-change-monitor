@@ -1,0 +1,67 @@
+name: RegTech Daily Monitor
+
+# 1. Trigger the workflow
+on:
+  schedule:
+    # Runs at 08:00 AM UTC every day
+    # You can adjust this cron schedule as needed
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+    # Allows you to manually trigger the workflow from the GitHub UI
+    # Useful for testing or on-demand checks
+  push:
+    branches:
+      - main
+    paths:
+      - 'monitor.py'
+      - 'requirements.txt'
+      - 'config/.env.example'
+      - '.github/workflows/regtech_monitor.yml'
+
+# 2. Define the jobs
+jobs:
+  monitor_regulations:
+    name: Run Daily RegTech Check
+    runs-on: ubuntu-latest # The type of virtual machine to run the job on
+
+    # 3. Define environment variables for the job
+    env:
+      TARGET_URL: ${{ secrets.TARGET_URL }}
+      REGULATION_NAME: ${{ secrets.REGULATION_NAME }}
+      SELECTOR_ID: ${{ secrets.SELECTOR_ID }}
+
+    # 4. Define the steps to execute
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4 # Action to clone your repository into the runner
+
+      - name: Set up Python
+        uses: actions/setup-python@v5 # Action to set up Python environment
+        with:
+          python-version: '3.10' # Specify Python version
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          # Create the config directory if it doesn't exist (important for log files)
+          mkdir -p config
+
+      - name: Run RegTech Monitor Script
+        run: python monitor.py
+
+      - name: Commit and Push Changes (Logs/Baseline)
+        # This step commits any changes made by the script (status_log.json, new_content.txt, baseline.txt)
+        # back to the repository. This is CRUCIAL for the audit trail.
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Automated: RegTech Monitor Update (Logs, Baseline, or New Content)"
+          # We include the log and baseline files to be tracked
+          files: |
+            config/status_log.json
+            config/baseline.txt
+            config/new_content.txt
+          # This ensures the bot's commits are attributed correctly
+          commit_user_name: 'github-actions[bot]'
+          commit_user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_author: 'GitHub Actions <github-actions[bot]@users.noreply.github.com>'

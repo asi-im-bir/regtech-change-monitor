@@ -1,0 +1,9 @@
+# Ignore environment secrets
+.env
+
+# Ignore Python runtime files
+__pycache__/
+*.pyc
+
+# Ignore saved baseline data
+config/baseline.txt

@@ -1,0 +1,69 @@
+# Proof of Concept: Automated RegTech Compliance Monitor
+
+## 1. Project Overview and Problem Statement
+
+### 1.1 The Problem 😫
+The core issue is that **manual regulatory tracking poses a high audit risk**. GRC teams must verify compliance against dozens of frequently updated external standards (e.g., **NIS2**, **AI Act**). Relying on analysts to check these websites weekly is slow, inefficient, and creates an **unacceptable audit gap** if a critical deadline is missed.
+
+### 1.2 The Solution ✅
+The solution is a lightweight, scalable system that automates the identification and logging of regulatory text changes. This system establishes **continuous monitoring**—a core requirement of modern GRC and security frameworks.
+
+| Component | Function | Outcome |
+| :--- | :--- | :--- |
+| **Automation** | Python/GitHub Actions (Cron) | Guarantees daily compliance checks without human intervention. |
+| **Scope** | `monitor_targets.json` | Centralizes a scalable list of URLs and content selectors. |
+| **Verification** | Git History/JSON Logs | Provides an immutable, timestamped **Audit Trail** of all activity. |
+
+---
+
+## 2. Technical Architecture and Data Flow
+
+The project uses a **Human-in-the-Loop** model. Automation handles detection (low value, high frequency), and the GRC analyst handles risk assessment (high value, low frequency).
+
+### 2.1 Architecture Diagram
+
+
+
+**Data Flow Summary:**
+
+1.  **Trigger:** **GitHub Actions** runs the scheduler (`cron`).
+2.  **Input:** The script reads the **Targets List** (`monitor_targets.json`).
+3.  **Process:** For each target, the script performs three tasks:
+    * **Fetch:** Sends an HTTP request to the target URL.
+    * **Compare:** Compares the **Live Content** to the **Last Approved Baseline** (`*_baseline.txt`).
+    * **Log:** Records the status (`OK` or `CHANGE_DETECTED`).
+4.  **Output:** The Git system automatically commits the updated **Audit Log** (`status_log.json`) to the repository.
+
+### 2.2 The Baseline File Concept
+
+The `*_baseline.txt` files are essential for the audit trail:
+
+* The **`*_baseline.txt`** file represents the last version of the regulatory text that the GRC team **certified as compliant**.
+* The script's core job is to check if the **Live Website** is different from the **Baseline**.
+* If a difference is found, the system **flags the old baseline in Git history** and saves the new text to a temporary **`*_new_content.txt`** file, forcing human review before the change is officially adopted.
+
+---
+
+## 3. Real-World Inputs, Outputs, and Utilization
+
+### 3.1 Required Inputs (Configuration)
+
+The operational stability relies on correctly configuring the following inputs (which should remain separate from the Python code):
+
+* **Targets List (`monitor_targets.json`):** Analyst provides the `target_url`, `regulation_name`, and the exact **CSS selector** (`#ID` or `.Class`) needed to isolate the critical text block on the webpage.
+* **Execution Environment:** GitHub Secrets (or Windows Environment Variables) must be configured with a single, general **`REGULATION_NAME`** for the entire monitoring project.
+
+### 3.2 Outputs and Change Control
+
+| Output Type | Trigger Event | Resulting GRC Action |
+| :--- | :--- | :--- |
+| **Outputs (Audit/OK)** | Daily Run Success | **Action:** System commits the updated `status_log.json` (`status: OK`). This is the primary **audit evidence**. |
+| **Outputs (Alert/Action)** | `Live Content != Baseline` | **ALERT:** Analyst is notified via the GitHub Action log/console output. **Action:** Analyst downloads the **`*_new_content.txt`** and starts a **Risk Impact Assessment**. |
+| **Output Reason** | **Connection/Selector Failures** | **Maintenance:** The logged error message (e.g., "Selector not found") directs the analyst to immediately troubleshoot the configuration, preserving system integrity. |
+
+### 3.3 Organizational Benefits 🚀
+
+This tool directly addresses the need for **Immutability** and **Focus on Risk** within the GRC function:
+
+* **Focus on Strategy:** Eliminates time wasted on checking websites, allowing the GRC analyst to concentrate on strategic security tasks.
+* **Traceability:** Creates a permanent record of every compliance status, protecting the organization from questions about the *date* a regulation changed or the *time* the organization responded.

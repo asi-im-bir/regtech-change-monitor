@@ -1,4 +1,4 @@
-# 🚨 RegTech Change Monitor (Multi-Target PoC)
+# 🚨 RegTech Change Monitor
 
 [![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -7,7 +7,7 @@
 
 ---
 
-⚡ RegTech Change Monitor — Automating Compliance for a Smarter GRC Future
+
 🧩 The Problem
 
 Most Governance, Risk & Compliance (GRC) teams still track regulatory updates manually.
@@ -55,49 +55,30 @@ The system automatically checks official regulation pages daily, compares new co
 👩‍💼 Analyst Review: Analysts validate detected changes, perform risk assessments, and approve baselines
 
 
-### ⚙️ Inputs & Outputs
+### 📤 Output
 
-**Input:**  
-`config/monitor_targets.json`  
-```json
-[
-  {
-    "name": "NIS2 Directive",
-    "target_url": "https://digital-strategy.ec.europa.eu/en/policies/nis-directive",
-    "selector_id": "#main-content"
-  },
-  {
-    "name": "EU AI Act",
-    "target_url": "https://artificialintelligenceact.eu/",
-    "selector_id": ".article-body"
-  }
-]
-Output:
+| Artifact | Description |
+|-----------|--------------|
+| `config/*_baseline.txt` | Stores the last approved version of each monitored regulation. |
+| `config/status_log.json` | Machine-readable audit log containing run timestamps and status entries. |
 
-config/*_baseline.txt — Last approved version of each monitored policy.
+| **Git Commit History** | Immutable audit trail showing every monitoring event and change. |
 
-config/status_log.json — Structured audit log of all checks and detections.
-
-Git history — Immutable evidence trail of every run and change.
-
-
-🗂️ *_baseline.txt → Approved regulation content snapshot
-
-📘 status_log.json → Machine-readable audit log
-
-🕓 Git commits → Immutable evidence of checks and changes
-
-Example:
-
+#### 🧾 Example Output Log
+[2025-10-18 08:00:03] INFO - Checking target: NIS2 Directive
+[2025-10-18 08:00:05] INFO - Status: OK (No change)
 [2025-10-18 08:00:06] 🚨 ALERT - CHANGE DETECTED in EU AI Act content!
 
 
-🌱 Future Enhancements
 
-🔔 Email / Slack notifications for detected changes
+---
 
-🧠 AI-based semantic drift detection (understanding legal meaning shifts)
+### 🌱 Future Enhancements
 
-📦 Integration with GRC platforms (ServiceNow, Archer, etc.)
-
-🪞 Visual diff comparison of updated text
+| Feature | Description |
+|----------|--------------|
+| 🔔 **Notifications** | Integrate Slack, Teams, or Email alerts for detected changes. |
+| 🧠 **AI Drift Detection** | Use NLP models to detect semantic (meaning-level) policy changes. |
+| 🪞 **Visual Diff Viewer** | Generate side-by-side text comparisons for analyst review. |
+| 📦 **GRC Platform Integration** | Sync with tools like ServiceNow, Archer, or Jira for automated control updates. |
+| 🗄️ **Database Persistence** | Add SQL or MongoDB backend for long-term storage and analytics. |
